@@ -8,14 +8,14 @@ from collections import defaultdict
 class Dept:
     def __init__(self, dept):
         self.dept = dept
-        self.required = {'R':list()}
-        self.electives = {'E':list()}
+        self.required = {'R':set()}
+        self.electives = {'E':set()}
 
     def add_course(self,course,re_flag):
         if re_flag == 'R':
-            self.required['R'].append(course)
+            self.required['R'].add(course)
         elif re_flag == 'E':
-            self.electives['E'].append(course)
+            self.electives['E'].add(course)
         
     def prettytable(self):
         return [self.dept ,sorted(self.required['R']), sorted(self.electives['E'])]
@@ -30,7 +30,7 @@ class Student:
         self.dept = dept
         self.course = dict()
         self.completed_course = list()
-        self.remaining_required = list()
+        self.remaining_required = None
         self.remaining_electives = None
 
     def add_course(self,course,grade):
