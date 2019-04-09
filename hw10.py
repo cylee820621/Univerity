@@ -151,14 +151,8 @@ class University:
         Store a defauldictionary, course as key and student as value, into Instructor Class.
         """
         for cwid, course, lettergrade, in_cwid in self.file_reader(self.grade_file, fields = 4, sep = '\t', header = False):    
-            
-            for i in self.students:
-                if cwid == i:
-                    self.students[i].add_course(course,lettergrade)
-
-            for j in self.instructors:
-                if in_cwid == j:
-                    self.instructors[j].add_course(course)
+            self.students[cwid].add_course(course,lettergrade)
+            self.instructors[in_cwid].add_course(course)
         
     def read_majors(self):
         for dept, re_flag, course in self.file_reader(self.majors_file, fields = 3, sep = '\t', header = False):
@@ -245,5 +239,5 @@ def main(path):
     print(data.instructors_pt)
   
 if __name__=="__main__":
-    dir = "/Users/cylee820621/Desktop/SSW-810/hw9"
+    dir = "/Users/cylee820621/Desktop/SSW-810/hw10"
     main(dir)
