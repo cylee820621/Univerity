@@ -170,8 +170,8 @@ class University:
                 if self.students[cwid].dept == major:
                     required_course = set(self.majors[major].required['R'])
 
-            a = required_course.difference(self.students[cwid].completed_course)
-            self.students[cwid].add_remaining_required(a)
+            required_course = required_course.difference(self.students[cwid].completed_course)
+            self.students[cwid].add_remaining_required(required_course)
             
     def add_electives(self):
         for cwid in self.students:
