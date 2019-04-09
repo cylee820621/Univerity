@@ -164,12 +164,9 @@ class University:
     
     def add_required(self):
         for cwid in self.students:
-
-            if self.students[cwid].dept == 'SFEN':
-                required_course = set(self.majors['SFEN'].required['R'])
-
-            elif self.students[cwid].dept == 'SYEN':
-                required_course = set(self.majors['SYEN'].required['R'])
+            for major in self.majors:
+                if self.students[cwid].dept == major:
+                    required_course = set(self.majors[major].required['R'])
         
             for course in required_course.copy():
 
