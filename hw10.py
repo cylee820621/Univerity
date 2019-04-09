@@ -164,39 +164,28 @@ class University:
     
     def add_required(self):
         for cwid in self.students:
+
             for major in self.majors:
+
                 if self.students[cwid].dept == major:
                     required_course = set(self.majors[major].required['R'])
-        
-            for course in required_course.copy():
 
-                if course in self.students[cwid].completed_course:
-                    required_course.remove(course)
-
-            self.students[cwid].add_remaining_required(required_course)
+            a = required_course.difference(self.students[cwid].completed_course)
+            self.students[cwid].add_remaining_required(a)
             
-        
     def add_electives(self):
         for cwid in self.students:
 
-            if self.students[cwid].dept == 'SFEN':
-                electives_course = set(self.majors['SFEN'].electives['E'])
+            for major in self.majors:
 
-            elif self.students[cwid].dept == 'SYEN':
-                electives_course = set(self.majors['SYEN'].electives['E'])
+                if self.students[cwid].dept == major:
+                    electives_course = set(self.majors[major].electives['E'])
 
-            for course in electives_course.copy():
-
-                if course in self.students[cwid].completed_course:
-                    self.students[cwid].add_remaining_electives(None)
-                    break
-
-                else:
-                    self.students[cwid].add_remaining_electives(electives_course)
+            if electives_course.intersection(self.students[cwid].completed_course):
+                self.students[cwid].add_remaining_electives(None)
+            else:
+                self.students[cwid].add_remaining_electives(electives_course)
                     
-                    
-            
-
     def majors_prettytable(self):
         pt = PrettyTable(field_names = ["Dept", "Required", "Electives"])
 
