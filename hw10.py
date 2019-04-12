@@ -1,6 +1,7 @@
 """
 @author: cylee820621
 """
+import sqlite3
 import os
 from prettytable import PrettyTable
 from collections import defaultdict
@@ -107,6 +108,7 @@ class University:
         self.students_pt = self.student_prettytable()
         self.instructors_pt = self.instructor_prettytable()
         self.majors_pt = self.majors_prettytable()
+        self.database_pt = self.open_db()
 
     def file_reader(self, path, fields, sep, header = False):
         """
@@ -217,13 +219,32 @@ class University:
 
         return pt
 
-
+    def open_db(self):
+        DB_file = "/Users/cylee820621/Desktop/SSW-810/hw11/810_startup.db"
+        db = sqlite3.connect(DB_file)
+        query = """select HW11_instructors.CWID,
+                    HW11_instructors.Name,
+                    HW11_instructors.Dept,
+                    HW11_grades.Course,
+                    COUNT(HW11_grades.Student_CWID) as cnt
+                    from HW11_instructors
+                    left join HW11_grades
+                    on HW11_instructors.CWID =HW11_grades.instructor_CWID
+                    GROUP BY Course order by Cwid"""
+        pt = PrettyTable(field_names = ["cwid", "name", "department", "course", "student"])
+        for cwid,name,dept,course,student in db.execute(query):
+            pt.add_row([cwid,name,dept,course,student])
+        return pt
+        
 def main(path):
     data = University(path)
     print(data.majors_pt)
     print(data.students_pt)
     print(data.instructors_pt)
-  
+    print(data.database_pt)
+    
+
+
 if __name__=="__main__":
     dir = "/Users/cylee820621/Desktop/SSW-810/hw10"
     main(dir)
