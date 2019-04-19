@@ -1,3 +1,6 @@
+"""
+@author: cylee820621
+"""
 from flask import Flask, render_template
 import sqlite3
 
@@ -13,6 +16,9 @@ def see_ya():
 
 @app.route('/instructor_courses')
 def instructor_courses():
+    """
+    another page for needed instructor table
+    """    
     DB_file = "/Users/cylee820621/Desktop/SSW-810/hw11/810_startup.db"
 
     query = """select HW11_instructors.CWID,
